@@ -8,10 +8,13 @@ class Teams(db.Model):
     __tablename__ = "teams"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, unique=True, nullable=False)
+    location = db.Column(db.String, nullable=False)
+    league = db.Column(db.String, nullable=False)
+    division = db.Column(db.String, nullable=False)
 
 
-class Rankings(db.Model):
-    __tablename__ = "rankings"
+class Standing(db.Model):
+    __tablename__ = "standing"
     id = db.Column(db.Integer, primary_key=True)
     team_id = db.Column(db.Integer, db.ForeignKey("teams.id"), nullable=False)
     date = db.Column(db.Date, nullable=False)

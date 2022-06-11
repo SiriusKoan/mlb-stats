@@ -84,6 +84,8 @@ class Updater:
                 league = team["team"]["league"]["id"]
                 wins = team["wins"]
                 losses = team["losses"]
+                division_rank = team["divisionRank"]
+                league_rank = team["leagueRank"]
                 GB = float(team["gamesBack"] if team["gamesBack"] != "-" else 0)
                 tmp = (
                     team["wildCardGamesBack"] if team["wildCardGamesBack"] != "-" else 0
@@ -148,6 +150,8 @@ class Updater:
                         # "date": date,
                         "wins": wins,
                         "losses": losses,
+                        "division_rank": division_rank,
+                        "league_rank": league_rank,
                         "GB": GB,
                         "WCGB": WCGB,
                         "XTRA_win": XTRA_win,

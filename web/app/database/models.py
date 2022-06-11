@@ -32,6 +32,8 @@ class Standing(db.Model):
     # standard
     win = db.Column(db.Integer, nullable=False, default=0)
     loss = db.Column(db.Integer, nullable=False, default=0)
+    division_rank = db.Column(db.Integer, nullable=False, default=0)
+    league_rank = db.Column(db.Integer, nullable=False, default=0)
     GB = db.Column(
         db.Float, nullable=False, default=0.0
     )  # GB = games behind, the first place has 0 games behind

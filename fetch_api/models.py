@@ -33,6 +33,8 @@ class Standings(base):
     # standard
     win = Column(Integer, nullable=False, default=0)
     loss = Column(Integer, nullable=False, default=0)
+    division_rank = Column(Integer, nullable=False, default=0)
+    league_rank = Column(Integer, nullable=False, default=0)
     GB = Column(
         Float, nullable=False, default=0.0
     )  # GB = games behind, the first place has 0 games behind

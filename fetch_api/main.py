@@ -5,11 +5,21 @@ import requests
 
 class Updater:
     def __init__(self, start_year=int(datetime.today().strftime("%Y"))) -> None:
-        self.db_uri = getenv("DB_URI")
         self.start_year = start_year
         self.this_year = int(datetime.today().strftime("%Y"))
         self.standing_url = "https://statsapi.mlb.com/api/v1/standings?leagueId=103,104&season={season}&date={date}&standingsTypes=regularSeason&hydrate=division,conference,league,team"
         self.season_info_url = "https://statsapi.mlb.com/api/v1/seasons/all/?sportId=1"
+        self.team_info_url = "https://statsapi.mlb.com/api/v1/teams?sportId=1&leagueIds=103,104"
+        
+
+    def get_all_teams_info(self):
+        """Return a list containing all teams info
+
+        Returns:
+            list: A list containing all teams info
+        """
+        r = requests.get(self.team_info_url)
+        return r.json()["teams"]
 
     def get_all_season_info(self):
         """Return a list containing all season info

@@ -57,5 +57,7 @@ class Standing(db.Model):
     vs_west_loss = db.Column(db.Integer, nullable=False)
     vs_interleague_win = db.Column(db.Integer, nullable=False)  # vs. interleague
     vs_interleague_loss = db.Column(db.Integer, nullable=False)
-    vs_R = db.Column(db.Integer, nullable=False)  # vs. right-handed starting pitchers
-    vs_L = db.Column(db.Integer, nullable=False)  # vs. left-handed starting pitchers
+    vs_R_win = db.Column(db.Integer, nullable=False)  # vs. right-handed starting pitchers
+    vs_R_loss = db.Column(db.Integer, nullable=False)
+    vs_L_win = db.Column(db.Integer, nullable=False)  # vs. left-handed starting pitchers
+    vs_L_loss = db.Column(db.Integer, nullable=False)

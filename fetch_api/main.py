@@ -1,6 +1,6 @@
-from os import getenv
 from datetime import datetime, timedelta
 import requests
+from db_helper import create_all, insert_to_teams, insert_to_standings
 
 
 class Updater:
@@ -9,8 +9,18 @@ class Updater:
         self.this_year = int(datetime.today().strftime("%Y"))
         self.standing_url = "https://statsapi.mlb.com/api/v1/standings?leagueId=103,104&season={season}&date={date}&standingsTypes=regularSeason&hydrate=division,conference,league,team"
         self.season_info_url = "https://statsapi.mlb.com/api/v1/seasons/all/?sportId=1"
-        self.team_info_url = "https://statsapi.mlb.com/api/v1/teams?sportId=1&leagueIds=103,104"
-        
+        self.team_info_url = (
+            "https://statsapi.mlb.com/api/v1/teams?sportId=1&leagueIds=103,104"
+        )
+
+    def insert_to_db(self):
+        """Insert all data to database"""
+        print("Creating database...")
+        create_all()
+        print("Inserting teams...")
+        insert_to_teams(self.get_all_teams_info())
+        print("Inserting standings...")
+        insert_to_standings(self.get_all())
 
     def get_all_teams_info(self):
         """Return a list containing all teams info
@@ -70,14 +80,15 @@ class Updater:
         teams = []
         for div in res["records"]:
             for team in div["teamRecords"]:
-                teamname = team["team"]["teamName"]
+                team_id = team["team"]["id"]
                 league = team["team"]["league"]["id"]
                 wins = team["wins"]
                 losses = team["losses"]
-                GB = team["gamesBack"] if team["gamesBack"] != "-" else 0
-                WCGB = (
+                GB = float(team["gamesBack"] if team["gamesBack"] != "-" else 0)
+                tmp = (
                     team["wildCardGamesBack"] if team["wildCardGamesBack"] != "-" else 0
                 )
+                WCGB = -1 * float(tmp) if str(tmp).startswith("+") else float(tmp)
                 RA = team["runsAllowed"]
                 RS = team["runsScored"]
                 split_records = team["records"]["splitRecords"]
@@ -94,7 +105,6 @@ class Updater:
                 one_run_win = split_records[10]["wins"]
                 one_run_loss = split_records[10]["losses"]
                 if len(split_records) == 16:
-                    # Sometimes there is not "winner" record, I think it's because no teams reach .500 in first few games
                     vs_500_win = split_records[11]["wins"]
                     vs_500_loss = split_records[11]["losses"]
                     day_game_win = split_records[12]["wins"]
@@ -106,6 +116,7 @@ class Updater:
                     turf_game_win = split_records[15]["wins"]
                     turf_game_loss = split_records[15]["losses"]
                 else:
+                    # Sometimes there is not "winner" record, I think it's because no teams reach .500 in first few games
                     vs_500_win = 0
                     vs_500_loss = 0
                     day_game_win = split_records[11]["wins"]
@@ -132,8 +143,9 @@ class Updater:
                     vs_interleague_loss = league_records[0]["losses"]
                 teams.append(
                     {
-                        "teamname": teamname,
-                        "date": date,
+                        "team_id": team_id,
+                        "date": datetime.strptime(date, "%Y-%m-%d"),
+                        # "date": date,
                         "wins": wins,
                         "losses": losses,
                         "GB": GB,

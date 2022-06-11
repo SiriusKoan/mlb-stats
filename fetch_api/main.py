@@ -1,12 +1,13 @@
 from os import getenv
-from datetime import datetime
+from datetime import datetime, timedelta
 import requests
 
 
 class Updater:
-    def __init__(self, start_year=datetime.today().strftime("%Y")) -> None:
+    def __init__(self, start_year=int(datetime.today().strftime("%Y"))) -> None:
         self.db_uri = getenv("DB_URI")
         self.start_year = start_year
+        self.this_year = int(datetime.today().strftime("%Y"))
         self.standing_url = "https://statsapi.mlb.com/api/v1/standings?leagueId=103,104&season={season}&date={date}&standingsTypes=regularSeason&hydrate=division,conference,league,team"
         self.season_info_url = "https://statsapi.mlb.com/api/v1/seasons/all/?sportId=1"
 
@@ -19,10 +20,41 @@ class Updater:
         r = requests.get(self.season_info_url)
         return r.json()["seasons"]
 
-    def get_all(self):
-        pass
+    def days_between(self, start_day, end_day):
+        """Yield next day in the range of start_day and end_day"""
+        start_day = datetime.strptime(start_day, "%Y-%m-%d")
+        end_day = datetime.strptime(end_day, "%Y-%m-%d")
+        while start_day <= end_day:
+            yield start_day.strftime("%Y-%m-%d")
+            start_day += timedelta(days=1)
 
-    def get_by_date(self, date=datetime.today().strftime("%Y-%m-%d")):
+    def get_all(self):
+        """Get all standings for specified season (year) range
+
+        Returns:
+            list: A list containing all standings during the specified season range
+        """
+        data = []
+        season_info = self.get_all_season_info()
+        # 1876 is the starting year in API
+        for i in range(self.start_year - 1876, self.this_year + 1 - 1876):
+            start_day = season_info[i]["regularSeasonStartDate"]
+            end_day = season_info[i]["regularSeasonEndDate"]
+            for day in self.days_between(start_day, end_day):
+                if day > datetime.today().strftime("%Y-%m-%d"):
+                    break
+                data.append(self.get_standing_by_date(day))
+        return data
+
+    def get_standing_by_date(self, date=datetime.today().strftime("%Y-%m-%d")):
+        """Get standings for a specific date
+
+        Args:
+            date (str): The date to get standings for
+
+        Returns:
+            list: A list containing all teams' standings on the specified date
+        """
         year = date.split("-")[0]
         res = requests.get(self.standing_url.format(season=year, date=date)).json()
         teams = []
@@ -51,16 +83,29 @@ class Updater:
                 XTRA_loss = split_records[9]["losses"]
                 one_run_win = split_records[10]["wins"]
                 one_run_loss = split_records[10]["losses"]
-                vs_500_win = split_records[11]["wins"]
-                vs_500_loss = split_records[11]["losses"]
-                day_game_win = split_records[12]["wins"]
-                day_game_loss = split_records[12]["losses"]
-                night_game_win = split_records[13]["wins"]
-                night_game_loss = split_records[13]["losses"]
-                grass_game_win = split_records[14]["wins"]
-                grass_game_loss = split_records[14]["losses"]
-                turf_game_win = split_records[15]["wins"]
-                turf_game_loss = split_records[15]["losses"]
+                if len(split_records) == 16:
+                    # Sometimes there is not "winner" record, I think it's because no teams reach .500 in first few games
+                    vs_500_win = split_records[11]["wins"]
+                    vs_500_loss = split_records[11]["losses"]
+                    day_game_win = split_records[12]["wins"]
+                    day_game_loss = split_records[12]["losses"]
+                    night_game_win = split_records[13]["wins"]
+                    night_game_loss = split_records[13]["losses"]
+                    grass_game_win = split_records[14]["wins"]
+                    grass_game_loss = split_records[14]["losses"]
+                    turf_game_win = split_records[15]["wins"]
+                    turf_game_loss = split_records[15]["losses"]
+                else:
+                    vs_500_win = 0
+                    vs_500_loss = 0
+                    day_game_win = split_records[11]["wins"]
+                    day_game_loss = split_records[11]["losses"]
+                    night_game_win = split_records[12]["wins"]
+                    night_game_loss = split_records[12]["losses"]
+                    grass_game_win = split_records[13]["wins"]
+                    grass_game_loss = split_records[13]["losses"]
+                    turf_game_win = split_records[14]["wins"]
+                    turf_game_loss = split_records[14]["losses"]
                 division_records = team["records"]["divisionRecords"]
                 vs_west_win = division_records[0]["wins"]
                 vs_west_loss = division_records[0]["losses"]
@@ -78,6 +123,7 @@ class Updater:
                 teams.append(
                     {
                         "teamname": teamname,
+                        "date": date,
                         "wins": wins,
                         "losses": losses,
                         "GB": GB,

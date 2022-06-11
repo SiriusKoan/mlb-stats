@@ -29,7 +29,7 @@ class Standings(base):
     __tablename__ = "standings"
     id = Column(Integer, primary_key=True)
     team_id = Column(Integer, ForeignKey("teams.id"), nullable=False)
-    date = Column(Date, nullable=False)
+    date = Column(Date, nullable=False, index=True)
     # standard
     win = Column(Integer, nullable=False, default=0)
     loss = Column(Integer, nullable=False, default=0)

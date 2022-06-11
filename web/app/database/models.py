@@ -28,7 +28,7 @@ class Standing(db.Model):
     __tablename__ = "standing"
     id = db.Column(db.Integer, primary_key=True)
     team_id = db.Column(db.Integer, db.ForeignKey("teams.id"), nullable=False)
-    date = db.Column(db.Date, nullable=False)
+    date = db.Column(db.Date, nullable=False, index=True)
     # standard
     win = db.Column(db.Integer, nullable=False, default=0)
     loss = db.Column(db.Integer, nullable=False, default=0)

@@ -20,7 +20,7 @@ class Development(Config):
     DEBUG = True
     SECRET_KEY = "93249yn5g4m5n"
     # Flask-SQLAlchemy
-    SQLALCHEMY_DATABASE_URI = "sqlite:///data.db"
+    SQLALCHEMY_DATABASE_URI = "sqlite:///test.db"
 
 class Production(Config):
     # Flask

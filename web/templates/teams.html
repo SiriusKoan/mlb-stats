@@ -1,3 +1,130 @@
 {% extends "base.html" %}
 
-{% block title %}Teams Ranking{% endblock %}
+{% block title %}Teams Standing{% endblock %}
+
+{% block extra_import %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div id="dates-container">
+    <form id="dates-form">
+        <div class="dates-row">
+            <label for="start-date">Start Date</label>
+            <input type="date" id="start-date" name="start-date" value="{{ startDate }}">
+        </div>
+        <div class="dates-row">
+            <label for="end-date">End Date</label>
+            <input type="date" id="end-date" name="end-date" value="{{ endDate }}">
+        </div>
+    </form>
+</div>
+<div id="teams-container">
+    <form id="teams-form">
+        {% for team in teams %}
+        <div class="team-row">
+            <input type="checkbox" name="{{ team.id }}" id="{{ team.id }}">
+            <span class="team-data" title="{{ team.fullname }} @ {{ team.location }}">{{ team.abbreviation }}</span>
+        </div>
+        {% endfor %}
+    </form>
+</div>
+<div id="attrs-container">
+    <form id="attrs-form">
+        <div class="attr-row">
+            <input type="checkbox" name="pct" id="pct">
+            <span title="Winning Percentage">PCT</span>
+        </div>
+        <div class="attr-row">
+            <input type="checkbox" name="division_rank" id="division_rank">
+            <span>Division Rank</span>
+        </div>
+        <div class="attr-row">
+            <input type="checkbox" name="league_rank" id="league_rank">
+            <span>League Rank</span>
+        </div>
+        <div class="attr-row">
+            <input type="checkbox" name="GB" id="GB">
+            <span>Games Behind</span>
+        </div>
+        <div class="attr-row">
+            <input type="checkbox" name="WCGB" id="WCGB">
+            <span>Wild Card Games Behind</span>
+        </div>
+        <div class="attr-row">
+            <input type="checkbox" name="XTRA_pct" id="XTRA_pct">
+            <span>PCT in Extra Inning Games</span>
+        </div>
+        <div class="attr-row">
+            <input type="checkbox" name="RS" id="RS">
+            <span>Runs Scored</span>
+        </div>
+        <div class="attr-row">
+            <input type="checkbox" name="RA" id="RA">
+            <span>Runs Allowed</span>
+        </div>
+        <div class="attr-row">
+            <input type="checkbox" name="home_win_pct" id="home_win_pct">
+            <span>PCT at Home</span>
+        </div>
+        <div class="attr-row">
+            <input type="checkbox" name="away_win_pct" id="away_win_pct">
+            <span>PCT When Away</span>
+        </div>
+        <div class="attr-row">
+            <input type="checkbox" name="vs_500_pct" id="vs_500_pct">
+            <span>PCT against >.500 Teams</span>
+        </div>
+        <div class="attr-row">
+            <input type="checkbox" name="one_run_pct" id="one_run_pct">
+            <span>PCT in 1-run Games</span>
+        </div>
+        <div class="attr-row">
+            <input type="checkbox" name="day_pct" id="day_pct">
+            <span>PCT in Day Games</span>
+        </div>
+        <div class="attr-row">
+            <input type="checkbox" name="night_pct" id="night_pct">
+            <span>PCT in Night Games</span>
+        </div>
+        <div class="attr-row">
+            <input type="checkbox" name="grass_pct" id="grass_pct">
+            <span>PCT on Grass</span>
+        </div>
+        <div class="attr-row">
+            <input type="checkbox" name="turf_pct" id="turf_pct">
+            <span>PCT on Turf</span>
+        </div>
+        <div class="attr-row">
+            <input type="checkbox" name="vs_east_pct" id="vs_east_pct">
+            <span>PCT vs. East Teams</span>
+        </div>
+        <div class="attr-row">
+            <input type="checkbox" name="vs_central_pct" id="vs_central_pct">
+            <span>PCT vs. Central Teams</span>
+        </div>
+        <div class="attr-row">
+            <input type="checkbox" name="vs_west_pct" id="vs_west_pct">
+            <span>PCT vs. West Teams</span>
+        </div>
+        <div class="attr-row">
+            <input type="checkbox" name="vs_interleague_pct" id="vs_interleague_pct">
+            <span>PCT vs. Interleague Teams</span>
+        </div>
+        <div class="attr-row">
+            <input type="checkbox" name="vs_R_pct" id="vs_R_pct">
+            <span>PCT vs. Right-handed Starting Pitcher</span>
+        </div>
+        <div class="attr-row">
+            <input type="checkbox" name="vs_L_pct" id="vs_L_pct">
+            <span>PCT vs. Left-handed Starting Pitcher</span>
+        </div>
+    </form>
+    <input type="submit" value="Search" id="update-button">
+</div>
+<div id="chart-container">
+    <!-- use chart.js to make chart -->
+</div>
+<script src="/static/api.js"></script>
+{% endblock %}

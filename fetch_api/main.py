@@ -20,7 +20,8 @@ class Updater:
         print("Inserting teams...")
         insert_to_teams(self.get_all_teams_info())
         print("Inserting standings...")
-        insert_to_standings(self.get_all())
+        for standing in self.get_all():
+            insert_to_standings(standing)
 
     def get_all_teams_info(self):
         """Return a list containing all teams info
@@ -54,17 +55,18 @@ class Updater:
         Returns:
             list: A list containing all standings during the specified season range
         """
-        data = []
         season_info = self.get_all_season_info()
         # 1876 is the starting year in API
         for i in range(self.start_year - 1876, self.this_year + 1 - 1876):
+            data = []
+            print("Starting to fetch standings for season {}".format(i))
             start_day = season_info[i]["regularSeasonStartDate"]
             end_day = season_info[i]["regularSeasonEndDate"]
             for day in self.days_between(start_day, end_day):
                 if day > datetime.today().strftime("%Y-%m-%d"):
                     break
                 data.append(self.get_standing_by_date(day))
-        return data
+            yield data
 
     def get_standing_by_date(self, date=datetime.today().strftime("%Y-%m-%d")):
         """Get standings for a specific date

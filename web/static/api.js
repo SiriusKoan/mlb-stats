@@ -1,4 +1,5 @@
 var update_button = document.getElementById("update-button");
+var chart_element = document.getElementById("standings-chart");
 
 var upper_bound = {
     "division_rank": 5,
@@ -19,9 +20,9 @@ update_button.addEventListener("click", function () {
     end_date = dates_form.elements["end-date"].value;
     let teams = [];
     let teams_form = document.getElementById("teams-form");
-    for (let i = 0; i < teams_form.children.length; i++) {
-        if (teams_form.children[i].children[0].checked) {
-            teams.push(teams_form.children[i].children[0].id);
+    for (let i = 0; i < teams_form.elements.length; i++) {
+        if (teams_form.elements[i].checked) {
+            teams.push(teams_form.elements[i].id);
         }
     }
     let attrs_form = document.getElementById("attrs-form");
@@ -60,6 +61,7 @@ update_button.addEventListener("click", function () {
                     }
                 }
             }
+            chart_element.scrollIntoView();
         }
     })
 });

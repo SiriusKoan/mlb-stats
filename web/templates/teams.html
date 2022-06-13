@@ -5,6 +5,7 @@
 {% block extra_import %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="/static/input.css">
 {% endblock %}
 
 {% block content %}
@@ -19,16 +20,6 @@
                 <label for="end-date">End Date</label>
                 <input type="date" id="end-date" name="end-date" value="{{ endDate }}">
             </div>
-        </form>
-    </div>
-    <div id="teams-container">
-        <form id="teams-form">
-            {% for team in teams %}
-            <div class="team-row">
-                <input type="checkbox" name="{{ team.id }}" id="{{ team.id }}">
-                <span class="team-data" title="{{ team.fullname }} @ {{ team.location }}">{{ team.abbreviation }}</span>
-            </div>
-            {% endfor %}
         </form>
     </div>
     <div id="attrs-container">
@@ -56,8 +47,28 @@
             <option value="vs_R_pct">PCT vs. Right-handed Starting Pitcher</option>
             <option value="vs_L_pct">PCT vs. Left-handed Starting Pitcher</option>
         </select>
-        <input type="submit" value="Search" id="update-button">
     </div>
+    <div id="teams-container">
+        <form id="teams-form">
+            <table id="teams-table">
+                <tbody>
+                    {% for i in range(0, 26, 5) %}
+                    <tr>
+                        {% for team in teams[i:i+5] %}
+                        <td class="team-row">
+                            <input type="checkbox" name="{{ team.id }}" id="{{ team.id }}">
+                            <span class="team-data" title="{{ team.fullname }} @ {{ team.location }}">
+                                {{ team.abbreviation }}
+                            </span>
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <input type="submit" value="Search" id="update-button">
 </div>
 <div id="chart-container">
     <!-- use chart.js to make chart -->

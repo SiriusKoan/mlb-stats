@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="/static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
     {% block extra_import %}
     {% endblock %}
 </head>
@@ -20,7 +23,7 @@
         {% block content %}{% endblock %}
     </div>
     <footer>
-        <p>&copy; SiriusKoan 2022</p>
+        <p>&copy; <a href="https://blog.siriuskoan.one" target="_blank">SiriusKoan</a> 2022</p>
     </footer>
 </body>
 

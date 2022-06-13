@@ -8,123 +8,61 @@
 {% endblock %}
 
 {% block content %}
-<div id="dates-container">
-    <form id="dates-form">
-        <div class="dates-row">
-            <label for="start-date">Start Date</label>
-            <input type="date" id="start-date" name="start-date" value="{{ startDate }}">
-        </div>
-        <div class="dates-row">
-            <label for="end-date">End Date</label>
-            <input type="date" id="end-date" name="end-date" value="{{ endDate }}">
-        </div>
-    </form>
-</div>
-<div id="teams-container">
-    <form id="teams-form">
-        {% for team in teams %}
-        <div class="team-row">
-            <input type="checkbox" name="{{ team.id }}" id="{{ team.id }}">
-            <span class="team-data" title="{{ team.fullname }} @ {{ team.location }}">{{ team.abbreviation }}</span>
-        </div>
-        {% endfor %}
-    </form>
-</div>
-<div id="attrs-container">
-    <form id="attrs-form">
-        <div class="attr-row">
-            <input type="checkbox" name="pct" id="pct">
-            <span title="Winning Percentage">PCT</span>
-        </div>
-        <div class="attr-row">
-            <input type="checkbox" name="division_rank" id="division_rank">
-            <span>Division Rank</span>
-        </div>
-        <div class="attr-row">
-            <input type="checkbox" name="league_rank" id="league_rank">
-            <span>League Rank</span>
-        </div>
-        <div class="attr-row">
-            <input type="checkbox" name="GB" id="GB">
-            <span>Games Behind</span>
-        </div>
-        <div class="attr-row">
-            <input type="checkbox" name="WCGB" id="WCGB">
-            <span>Wild Card Games Behind</span>
-        </div>
-        <div class="attr-row">
-            <input type="checkbox" name="XTRA_pct" id="XTRA_pct">
-            <span>PCT in Extra Inning Games</span>
-        </div>
-        <div class="attr-row">
-            <input type="checkbox" name="RS" id="RS">
-            <span>Runs Scored</span>
-        </div>
-        <div class="attr-row">
-            <input type="checkbox" name="RA" id="RA">
-            <span>Runs Allowed</span>
-        </div>
-        <div class="attr-row">
-            <input type="checkbox" name="home_win_pct" id="home_win_pct">
-            <span>PCT at Home</span>
-        </div>
-        <div class="attr-row">
-            <input type="checkbox" name="away_win_pct" id="away_win_pct">
-            <span>PCT When Away</span>
-        </div>
-        <div class="attr-row">
-            <input type="checkbox" name="vs_500_pct" id="vs_500_pct">
-            <span>PCT against >.500 Teams</span>
-        </div>
-        <div class="attr-row">
-            <input type="checkbox" name="one_run_pct" id="one_run_pct">
-            <span>PCT in 1-run Games</span>
-        </div>
-        <div class="attr-row">
-            <input type="checkbox" name="day_pct" id="day_pct">
-            <span>PCT in Day Games</span>
-        </div>
-        <div class="attr-row">
-            <input type="checkbox" name="night_pct" id="night_pct">
-            <span>PCT in Night Games</span>
-        </div>
-        <div class="attr-row">
-            <input type="checkbox" name="grass_pct" id="grass_pct">
-            <span>PCT on Grass</span>
-        </div>
-        <div class="attr-row">
-            <input type="checkbox" name="turf_pct" id="turf_pct">
-            <span>PCT on Turf</span>
-        </div>
-        <div class="attr-row">
-            <input type="checkbox" name="vs_east_pct" id="vs_east_pct">
-            <span>PCT vs. East Teams</span>
-        </div>
-        <div class="attr-row">
-            <input type="checkbox" name="vs_central_pct" id="vs_central_pct">
-            <span>PCT vs. Central Teams</span>
-        </div>
-        <div class="attr-row">
-            <input type="checkbox" name="vs_west_pct" id="vs_west_pct">
-            <span>PCT vs. West Teams</span>
-        </div>
-        <div class="attr-row">
-            <input type="checkbox" name="vs_interleague_pct" id="vs_interleague_pct">
-            <span>PCT vs. Interleague Teams</span>
-        </div>
-        <div class="attr-row">
-            <input type="checkbox" name="vs_R_pct" id="vs_R_pct">
-            <span>PCT vs. Right-handed Starting Pitcher</span>
-        </div>
-        <div class="attr-row">
-            <input type="checkbox" name="vs_L_pct" id="vs_L_pct">
-            <span>PCT vs. Left-handed Starting Pitcher</span>
-        </div>
-    </form>
-    <input type="submit" value="Search" id="update-button">
+<div id="form-container">
+    <div id="dates-container">
+        <form id="dates-form">
+            <div class="dates-row">
+                <label for="start-date">Start Date</label>
+                <input type="date" id="start-date" name="start-date" value="{{ startDate }}">
+            </div>
+            <div class="dates-row">
+                <label for="end-date">End Date</label>
+                <input type="date" id="end-date" name="end-date" value="{{ endDate }}">
+            </div>
+        </form>
+    </div>
+    <div id="teams-container">
+        <form id="teams-form">
+            {% for team in teams %}
+            <div class="team-row">
+                <input type="checkbox" name="{{ team.id }}" id="{{ team.id }}">
+                <span class="team-data" title="{{ team.fullname }} @ {{ team.location }}">{{ team.abbreviation }}</span>
+            </div>
+            {% endfor %}
+        </form>
+    </div>
+    <div id="attrs-container">
+        <select name="attrs-form" id="attrs-form">
+            <option value="pct">PCT</option>
+            <option value="division_rank">Division Rank</option>
+            <option value="league_rank">League Rank</option>
+            <option value="GB">Games Behind</option>
+            <option value="WCGB">Wild Card Games Behind</option>
+            <option value="XTRA_pct">RCT in Extra Inning Games</option>
+            <option value="RS">Runs Scored</option>
+            <option value="RA">Runs Allowed</option>
+            <option value="home_pct">PCT at Home</option>
+            <option value="away_pct">PCT When Away</option>
+            <option value="vs_500_pct">PCT against >.500 Teams</option>
+            <option value="one_run_pct">PCT in 1-run Games</option>
+            <option value="day_games_pct">PCT in Day Games</option>
+            <option value="night_games_pct">PCT in Night Games</option>
+            <option value="grass_games_pct">PCT on Grass</option>
+            <option value="turf_games_pct">PCT on Turf</option>
+            <option value="vs_east_pct">PCT vs. East Teams</option>
+            <option value="vs_central_pct">PCT vs. Central Teams</option>
+            <option value="vs_west_pct">PCT vs. West Teams</option>
+            <option value="vs_interleague_pct">PCT vs. Interleague Teams</option>
+            <option value="vs_R_pct">PCT vs. Right-handed Starting Pitcher</option>
+            <option value="vs_L_pct">PCT vs. Left-handed Starting Pitcher</option>
+        </select>
+        <input type="submit" value="Search" id="update-button">
+    </div>
 </div>
 <div id="chart-container">
     <!-- use chart.js to make chart -->
+    <canvas id="standings-chart"></canvas>
 </div>
 <script src="/static/api.js"></script>
+<script src="/static/chart.js"></script>
 {% endblock %}

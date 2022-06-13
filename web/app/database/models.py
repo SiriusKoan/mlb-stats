@@ -24,8 +24,8 @@ class Teams(db.Model):
         self.division = division
 
 
-class Standing(db.Model):
-    __tablename__ = "standing"
+class Standings(db.Model):
+    __tablename__ = "standings"
     id = db.Column(db.Integer, primary_key=True)
     team_id = db.Column(db.Integer, db.ForeignKey("teams.id"), nullable=False)
     date = db.Column(db.Date, nullable=False, index=True)

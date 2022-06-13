@@ -5,7 +5,7 @@ def get_all_teams():
     """
     Returns a list of all teams in the database.
     """
-    return to_dict(Teams.query.all())
+    return to_dict(Teams.query.order_by(Teams.league).order_by(Teams.division).all())
 
 
 def get_all_standings():
@@ -15,7 +15,14 @@ def get_all_standings():
     return to_dict(Standings.query.all())
 
 
-def get_standings_in_season(start_season, end_season=None, teams=[], attrs=[]):
+def get_standing_attrs():
+    """
+    Returns a list of all attributes in the standings table.
+    """
+    return [attr for attr in Standings.__table__.columns.keys() if attr[0] != "_"]
+
+
+def get_standings_with_date_range(start_date, end_date=None, teams=[], attrs=[]):
     """
     Returns a list of standings in the database between the start and end
     indices.
@@ -29,11 +36,14 @@ def get_standings_in_season(start_season, end_season=None, teams=[], attrs=[]):
     Returns:
         list: A list of standings in the database between the start and end with specified teams and attributes.
     """
-    start = start_season + "-01-01"
-    end = (end_season if end_season else start_season) + "-12-31"
-    Filter = Standings.query.filter(Standings.date.between(start, end))
-    Filter = Filter.filter(Standings.team_id.in_(teams))
-    return to_dict(Filter.all(), attrs=attrs)
+    if (end_date is None):
+        end_date = start_date
+    Filter = Standings.query.filter(Standings.date.between(start_date, end_date))
+    result = []
+    for team in teams:
+        tmp = Filter.filter_by(team_id=team)
+        result.append(to_dict(tmp.all(), attrs=attrs))
+    return result
 
 
 def to_dict(data, attrs="all"):
@@ -53,4 +63,6 @@ def to_dict(data, attrs="all"):
             for standing in data
         ]
     else:
+        if "date" not in attrs:
+            attrs.append("date")
         return [{attr: getattr(standing, attr) for attr in attrs} for standing in data]

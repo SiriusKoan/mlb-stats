@@ -39,10 +39,11 @@ update_button.addEventListener("click", function () {
         }),
         success: function (data) {
             console.log(data);
-            if (chart) {
-                chart.destroy();
+            let chartStatus = Chart.getChart("standings-chart");
+            if (chartStatus) {
+                chartStatus.destroy();
             }
-            var chart = new Chart(ctx, createConfig(teams, attr, lower_bound[attr] || 0, upper_bound[attr] || 1));
+            let chart = new Chart(ctx, createConfig(teams, attr, lower_bound[attr] || 0, upper_bound[attr] || 1));
             console.log(chart);
             for (let i = 0; i < data[0].length; i++) {  
                 d = new Date(data[0][i]["date"]);
@@ -61,6 +62,7 @@ update_button.addEventListener("click", function () {
                     }
                 }
             }
+            chart.update();
             chart_element.scrollIntoView();
         }
     })

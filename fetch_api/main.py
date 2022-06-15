@@ -59,7 +59,7 @@ class Updater:
         # 1876 is the starting year in API
         for i in range(self.start_year - 1876, self.this_year + 1 - 1876):
             data = []
-            print("Starting to fetch standings for season {}".format(i))
+            print("Starting to fetch standings for season {}".format(i + 1876))
             start_day = season_info[i]["regularSeasonStartDate"]
             end_day = season_info[i]["regularSeasonEndDate"]
             for day in self.days_between(start_day, end_day):
@@ -111,26 +111,26 @@ class Updater:
                 if len(split_records) == 16:
                     vs_500_win = split_records[11]["wins"]
                     vs_500_loss = split_records[11]["losses"]
-                    day_game_win = split_records[12]["wins"]
-                    day_game_loss = split_records[12]["losses"]
-                    night_game_win = split_records[13]["wins"]
-                    night_game_loss = split_records[13]["losses"]
-                    grass_game_win = split_records[14]["wins"]
-                    grass_game_loss = split_records[14]["losses"]
-                    turf_game_win = split_records[15]["wins"]
-                    turf_game_loss = split_records[15]["losses"]
+                    day_games_win = split_records[12]["wins"]
+                    day_games_loss = split_records[12]["losses"]
+                    night_games_win = split_records[13]["wins"]
+                    night_games_loss = split_records[13]["losses"]
+                    grass_games_win = split_records[14]["wins"]
+                    grass_games_loss = split_records[14]["losses"]
+                    turf_games_win = split_records[15]["wins"]
+                    turf_games_loss = split_records[15]["losses"]
                 else:
                     # Sometimes there is not "winner" record, I think it's because no teams reach .500 in first few games
                     vs_500_win = 0
                     vs_500_loss = 0
-                    day_game_win = split_records[11]["wins"]
-                    day_game_loss = split_records[11]["losses"]
-                    night_game_win = split_records[12]["wins"]
-                    night_game_loss = split_records[12]["losses"]
-                    grass_game_win = split_records[13]["wins"]
-                    grass_game_loss = split_records[13]["losses"]
-                    turf_game_win = split_records[14]["wins"]
-                    turf_game_loss = split_records[14]["losses"]
+                    day_games_win = split_records[11]["wins"]
+                    day_games_loss = split_records[11]["losses"]
+                    night_games_win = split_records[12]["wins"]
+                    night_games_loss = split_records[12]["losses"]
+                    grass_games_win = split_records[13]["wins"]
+                    grass_games_loss = split_records[13]["losses"]
+                    turf_games_win = split_records[14]["wins"]
+                    turf_games_loss = split_records[14]["losses"]
                 division_records = team["records"]["divisionRecords"]
                 vs_west_win = division_records[0]["wins"]
                 vs_west_loss = division_records[0]["losses"]
@@ -168,14 +168,14 @@ class Updater:
                         "vs_500_loss": vs_500_loss,
                         "one_run_win": one_run_win,
                         "one_run_loss": one_run_loss,
-                        "day_game_win": day_game_win,
-                        "day_game_loss": day_game_loss,
-                        "night_game_win": night_game_win,
-                        "night_game_loss": night_game_loss,
-                        "grass_game_win": grass_game_win,
-                        "grass_game_loss": grass_game_loss,
-                        "turf_game_win": turf_game_win,
-                        "turf_game_loss": turf_game_loss,
+                        "day_games_win": day_games_win,
+                        "day_games_loss": day_games_loss,
+                        "night_games_win": night_games_win,
+                        "night_games_loss": night_games_loss,
+                        "grass_games_win": grass_games_win,
+                        "grass_games_loss": grass_games_loss,
+                        "turf_games_win": turf_games_win,
+                        "turf_games_loss": turf_games_loss,
                         "vs_west_win": vs_west_win,
                         "vs_west_loss": vs_west_loss,
                         "vs_east_win": vs_east_win,
@@ -184,9 +184,9 @@ class Updater:
                         "vs_central_loss": vs_central_loss,
                         "vs_interleague_win": vs_interleague_win,
                         "vs_interleague_loss": vs_interleague_loss,
-                        "vs_L_wins": vs_L_win,
+                        "vs_L_win": vs_L_win,
                         "vs_L_loss": vs_L_loss,
-                        "vs_R_wins": vs_R_win,
+                        "vs_R_win": vs_R_win,
                         "vs_R_loss": vs_R_loss,
                     }
                 )

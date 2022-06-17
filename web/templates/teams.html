@@ -57,9 +57,9 @@
                         {% for team in teams[i:i+5] %}
                         <td class="team-row">
                             <input type="checkbox" name="{{ team.id }}" id="{{ team.id }}">
-                            <span class="team-data" title="{{ team.fullname }} @ {{ team.location }}">
+                            <label for="{{ team.id }}" class="team-data" title="{{ team.fullname }} @ {{ team.location }}">
                                 {{ team.abbreviation }}
-                            </span>
+                            </label>
                         </td>
                         {% endfor %}
                     </tr>

@@ -44,7 +44,6 @@ update_button.addEventListener("click", function () {
                 chartStatus.destroy();
             }
             let chart = new Chart(ctx, createConfig(teams, attr, lower_bound[attr] || 0, upper_bound[attr] || 1));
-            console.log(chart);
             for (let i = 0; i < data[0].length; i++) {  
                 d = new Date(data[0][i]["date"]);
                 chart.data.labels.push(d.toLocaleDateString());
@@ -63,6 +62,7 @@ update_button.addEventListener("click", function () {
                 }
             }
             chart.update();
+            document.getElementById("chart-container").style.display = "block";
             chart_element.scrollIntoView();
         }
     })

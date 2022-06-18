@@ -1,6 +1,6 @@
 from flask import render_template, request, jsonify
 from . import teams_bp
-from ..database.helper import get_all_teams, get_standings_with_date_range
+from .helper import get_all_teams, get_standings_with_date_range
 
 
 @teams_bp.route("/teams", methods=["GET"])

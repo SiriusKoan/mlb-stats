@@ -1,6 +1,7 @@
 from flask import Flask
 from .config import configs
 from .database import db
+from .redis import r
 
 
 def create_app(env):
@@ -8,6 +9,7 @@ def create_app(env):
     app.config.from_object(configs[env])
 
     db.init_app(app)
+    r.init_app(app)
 
     from .main import main_bp
 

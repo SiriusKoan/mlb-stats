@@ -1,7 +1,9 @@
 from os import getenv, urandom
 
+
 class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
 
 class Testing(Config):
     # Flask
@@ -14,6 +16,7 @@ class Testing(Config):
     # Flask-WTF
     WTF_CSRF_ENABLED = False
 
+
 class Development(Config):
     # Flask
     ENV = "DEVELOPMENT"
@@ -21,6 +24,11 @@ class Development(Config):
     SECRET_KEY = "93249yn5g4m5n"
     # Flask-SQLAlchemy
     SQLALCHEMY_DATABASE_URI = "sqlite:///test.db"
+    # redis
+    REDIS_HOST = getenv("REDIS_HOST", "localhost")
+    REDIS_PORT = getenv("REDIS_PORT", 6379)
+    REDIS_PASSWORD = getenv("REDIS_PASSWORD", None)
+
 
 class Production(Config):
     # Flask
@@ -28,6 +36,11 @@ class Production(Config):
     SECRET_KEY = urandom(32)
     # Flask-SQLAlchemy
     SQLALCHEMY_DATABASE_URI = getenv("DATABASE_URI")
+    # redis
+    REDIS_HOST = getenv("REDIS_HOST", "localhost")
+    REDIS_PORT = getenv("REDIS_PORT", 6379)
+    REDIS_PASSWORD = getenv("REDIS_PASSWORD", None)
+
 
 configs = {
     "development": Development,

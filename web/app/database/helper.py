@@ -21,9 +21,24 @@ def get_standing_attrs():
     """
     return [attr for attr in Standings.__table__.columns.keys() if attr[0] != "_"]
 
+def get_standings_by_date(date, team, attrs=[]):
+    """
+    Returns a list of standings in the database for a given date.
+
+    Args:
+        date (str): The date to get standings for.
+        team (int): The team to get standings for.
+        attrs (list): A list of attributes to get.
+
+    Returns:
+        list: A list of standings in the database for a given date.
+    """
+    return to_dict(Standings.query.filter_by(date=date).filter_by(team_id=team).all(), attrs=attrs)
+
 
 def get_standings_with_date_range(start_date, end_date=None, teams=[], attrs=[]):
     """
+    DEPRECATED
     Returns a list of standings in the database between the start and end
     indices.
 

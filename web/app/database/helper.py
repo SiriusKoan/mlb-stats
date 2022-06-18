@@ -38,7 +38,6 @@ def get_standings_by_date(date, team, attrs=[]):
 
 def get_standings_with_date_range(start_date, end_date=None, teams=[], attrs=[]):
     """
-    DEPRECATED
     Returns a list of standings in the database between the start and end
     indices.
 

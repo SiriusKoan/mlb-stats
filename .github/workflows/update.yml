@@ -1,0 +1,11 @@
+name: Daily update
+on:
+  schedule:
+    - cron: "0 8 * * *"
+
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run update script
+        run: python fetch_api/update.py

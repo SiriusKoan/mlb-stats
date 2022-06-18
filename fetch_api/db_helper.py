@@ -3,7 +3,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from models import Teams, Standings, base
 
-uri = getenv("DATABASE_URL") or "sqlite:///test.db"
+uri = getenv("DATABASE_URI") or "sqlite:///test.db"
 engine = create_engine(uri)
 session = sessionmaker(autocommit=False, autoflush=False, bind=engine)()
 

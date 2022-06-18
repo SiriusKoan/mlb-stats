@@ -23,6 +23,12 @@ class Updater:
         for standing in self.get_all():
             insert_to_standings(standing)
 
+    def daily_update(self):
+        """Update database with new data"""
+        print("Updating database...")
+        # print(self.get_standing_by_date())
+        insert_to_standings([self.get_standing_by_date()])
+
     def get_all_teams_info(self):
         """Return a list containing all teams info
 

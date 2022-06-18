@@ -3,3 +3,4 @@ __pycache__
 .vscode
 *.json
 test.db
+test.py

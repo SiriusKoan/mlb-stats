@@ -1,1 +1,1 @@
-web: gunicorn --chdir web manage:app
+web: gunicorn manage:app --chdir web --timeout 120 --log-level=debug

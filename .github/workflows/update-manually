@@ -1,0 +1,11 @@
+name: Daily update
+on: [workflow_dispatch]
+
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run update script
+        env:
+          DATABASE_URI: ${{ secrets.DATABASE_URI }}
+        run: python fetch_api/update.py

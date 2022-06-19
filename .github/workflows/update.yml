@@ -9,5 +9,5 @@ jobs:
     steps:
       - name: Run update script
         env:
-          DATABASE_URI: ${{ secret.DATABASE_URI }}
+          DATABASE_URI: ${{ secrets.DATABASE_URI }}
         run: python fetch_api/update.py

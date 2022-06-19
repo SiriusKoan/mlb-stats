@@ -2,7 +2,10 @@ from os import getenv, urandom
 
 
 class Config:
+    # Flask-SQLAlchemy
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    # redis
+    REDIS_ENABLED = False
 
 
 class Testing(Config):

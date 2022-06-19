@@ -15,12 +15,6 @@ def get_all_standings():
     return to_dict(Standings.query.all())
 
 
-def get_standing_attrs():
-    """
-    Returns a list of all attributes in the standings table.
-    """
-    return [attr for attr in Standings.__table__.columns.keys() if attr[0] != "_"]
-
 def get_standings_by_date(date, team, attrs=[]):
     """
     Returns a list of standings in the database for a given date.
@@ -33,7 +27,9 @@ def get_standings_by_date(date, team, attrs=[]):
     Returns:
         list: A list of standings in the database for a given date.
     """
-    return to_dict(Standings.query.filter_by(date=date).filter_by(team_id=team).all(), attrs=attrs)
+    return to_dict(
+        Standings.query.filter_by(date=date).filter_by(team_id=team).all(), attrs=attrs
+    )
 
 
 def get_standings_with_date_range(start_date, end_date=None, teams=[], attrs=[]):
@@ -50,7 +46,7 @@ def get_standings_with_date_range(start_date, end_date=None, teams=[], attrs=[])
     Returns:
         list: A list of standings in the database between the start and end with specified teams and attributes.
     """
-    if (end_date is None):
+    if end_date is None:
         end_date = start_date
     Filter = Standings.query.filter(Standings.date.between(start_date, end_date))
     result = []

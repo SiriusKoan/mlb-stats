@@ -43,7 +43,11 @@ update_button.addEventListener("click", function () {
             if (chartStatus) {
                 chartStatus.destroy();
             }
-            let chart = new Chart(ctx, createConfig(teams, attr, lower_bound[attr] || 0, upper_bound[attr] || 1));
+            teams_converted = [];
+            for (let i = 0; i < teams.length; i++) {
+                teams_converted.push(team_map[teams[i]]);
+            }
+            let chart = new Chart(ctx, createConfig(teams_converted, attr, lower_bound[attr] || 0, upper_bound[attr] || 1));
             for (let i = 0; i < data[0].length; i++) {  
                 d = new Date(data[0][i]["date"]);
                 chart.data.labels.push(d.toLocaleDateString());

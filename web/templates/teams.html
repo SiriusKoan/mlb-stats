@@ -76,4 +76,11 @@
 </div>
 <script src="/static/api.js"></script>
 <script src="/static/chart.js"></script>
+<script>
+    var team_map = {
+        {% for team in teams %}
+        {{ team.id }}: "{{ team.abbreviation }}",
+        {% endfor %}
+    };
+</script>
 {% endblock %}

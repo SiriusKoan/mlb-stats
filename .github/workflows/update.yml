@@ -8,4 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run update script
+        env:
+          DATABASE_URI: ${{ secret.DATABASE_URI }}
         run: python fetch_api/update.py

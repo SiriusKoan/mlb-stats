@@ -4,9 +4,14 @@ on:
     - cron: "0 8 * * *"
 
 jobs:
-  cron:
+  update:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r fetch_api/requirements.txt
       - name: Run update script
         env:
           DATABASE_URI: ${{ secrets.DATABASE_URI }}
